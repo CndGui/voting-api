@@ -29,7 +29,7 @@ public class TopicController {
     }
 
     @PostMapping
-    public ResponseEntity<Topic> create(@RequestBody @Validated TopicRequestDTO data) {
+    public ResponseEntity<Topic> create(@RequestBody TopicRequestDTO data) {
         return service.create(data);
     }
 

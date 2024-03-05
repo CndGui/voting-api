@@ -20,6 +20,6 @@ public class Vote {
     private Long cpf;
     private Boolean choice;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Session session;
 }

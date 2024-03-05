@@ -1,11 +1,13 @@
 package com.guilhermerodrigues.votingapi.entity;
 
+import com.guilhermerodrigues.votingapi.dto.SessionRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,9 +21,13 @@ public class Session {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Topic topic;
 
-    @OneToMany
-    private List<Vote> votes;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Vote> votes = new ArrayList<>();
+
+    public Session(Topic topic) {
+        this.topic = topic;
+    }
 }

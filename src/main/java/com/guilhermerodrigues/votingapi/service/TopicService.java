@@ -4,7 +4,7 @@ import com.guilhermerodrigues.votingapi.dto.TopicRequestDTO;
 import com.guilhermerodrigues.votingapi.entity.Topic;
 import com.guilhermerodrigues.votingapi.exception.NotFoundException;
 import com.guilhermerodrigues.votingapi.exception.ParametersNotValidException;
-import com.guilhermerodrigues.votingapi.repository.TopicRespository;
+import com.guilhermerodrigues.votingapi.repository.TopicRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,9 +13,9 @@ import java.util.List;
 
 @Service
 public class TopicService {
-    private final TopicRespository repository;
+    private final TopicRepository repository;
 
-    public TopicService(TopicRespository repository) {
+    public TopicService(TopicRepository repository) {
         this.repository = repository;
     }
 
@@ -25,12 +25,12 @@ public class TopicService {
 
     public Topic get(Long id) {
         return repository.findById(id).orElseThrow(() -> (
-                new NotFoundException("The topic with ID " + id + " does not exist!")
+            new NotFoundException("The topic with ID " + id + " does not exist!")
         ));
     }
 
     public ResponseEntity<Topic> create(TopicRequestDTO data) {
-        if(data.content() == null || data.content().isEmpty()) {
+        if (data.content() == null || data.content().isEmpty()) {
             throw new ParametersNotValidException("The body of topic is incorrect!");
         }
 
@@ -40,7 +40,7 @@ public class TopicService {
     }
 
     public Topic update(Long id, TopicRequestDTO data) {
-        if(data.content() == null || data.content().isEmpty()) {
+        if (data.content() == null || data.content().isEmpty()) {
             throw new ParametersNotValidException("The body of topic is incorrect!");
         }
 
@@ -48,13 +48,13 @@ public class TopicService {
             topic.setContent(data.content());
             return repository.save(topic);
         }).orElseThrow(() -> (
-                new NotFoundException("The topic with ID " + id + " does not exist!")
+            new NotFoundException("The topic with ID " + id + " does not exist!")
         ));
     }
 
     public void delete(Long id) {
         repository.findById(id).orElseThrow(() -> (
-                new NotFoundException("The topic with ID " + id + " does not exist!")
+            new NotFoundException("The topic with ID " + id + " does not exist!")
         ));
 
         repository.deleteById(id);
