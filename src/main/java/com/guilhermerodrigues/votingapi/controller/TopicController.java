@@ -1,6 +1,7 @@
 package com.guilhermerodrigues.votingapi.controller;
 
 import com.guilhermerodrigues.votingapi.dto.TopicRequestDTO;
+import com.guilhermerodrigues.votingapi.dto.TopicResponseDTO;
 import com.guilhermerodrigues.votingapi.entity.Topic;
 import com.guilhermerodrigues.votingapi.service.TopicService;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,12 @@ public class TopicController {
     }
 
     @GetMapping
-    public List<Topic> getAll() {
+    public List<TopicResponseDTO> getAll() {
         return service.getAll();
     }
 
     @GetMapping("{id}")
-    public Topic get(@PathVariable(name = "id") Long id) {
+    public TopicResponseDTO get(@PathVariable(name = "id") Long id) {
         return service.get(id);
     }
 

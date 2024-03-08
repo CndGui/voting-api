@@ -7,6 +7,7 @@ import com.guilhermerodrigues.votingapi.entity.Topic;
 import com.guilhermerodrigues.votingapi.exception.NotFoundException;
 import com.guilhermerodrigues.votingapi.exception.ParametersNotValidException;
 import com.guilhermerodrigues.votingapi.repository.SessionRepository;
+import com.guilhermerodrigues.votingapi.repository.TopicRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,11 @@ import java.util.stream.Collectors;
 public class SessionService {
     private final SessionRepository repository;
 
-    public SessionService(SessionRepository repository, TopicService topicService) {
+    public SessionService(SessionRepository repository, TopicRepository topicRepository) {
         this.repository = repository;
-        this.topicService = topicService;
+        this.topicRepository = topicRepository;
     }
-
-    private final TopicService topicService;
+    private final TopicRepository topicRepository;
 
     public List<SessionResponseDTO> getAll() {
         return repository.findAll().stream()
@@ -32,6 +32,7 @@ public class SessionService {
     }
 
     public SessionResponseDTO get(Long id) {
+        System.out.println(repository.findById(id).map(SessionResponseDTO::new));
         return repository.findById(id).map(SessionResponseDTO::new).orElseThrow(() -> (
             new NotFoundException("The session with ID " + id + " does not exist!")
         ));
@@ -42,7 +43,9 @@ public class SessionService {
             throw new ParametersNotValidException("The body of session is incorrect!");
         }
 
-        Topic topic = topicService.get(data.topicID());
+        Topic topic = topicRepository.findById(data.topicID()).orElseThrow(() -> (
+            new NotFoundException("The session with ID " + data.topicID() + " does not exist!")
+        ));
         Session newSession = repository.save(new Session(topic));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new SessionResponseDTO(newSession));
@@ -57,7 +60,9 @@ public class SessionService {
             throw new ParametersNotValidException("The body of session is incorrect!");
         }
 
-        Topic topic = topicService.get(data.topicID());
+        Topic topic = topicRepository.findById(data.topicID()).orElseThrow(() -> (
+            new NotFoundException("The session with ID " + data.topicID() + " does not exist!")
+        ));
 
         session.setTopic(topic);
         Session updateSession = repository.save(session);

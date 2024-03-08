@@ -1,6 +1,7 @@
 package com.guilhermerodrigues.votingapi.service;
 
 import com.guilhermerodrigues.votingapi.dto.TopicRequestDTO;
+import com.guilhermerodrigues.votingapi.dto.TopicResponseDTO;
 import com.guilhermerodrigues.votingapi.entity.Topic;
 import com.guilhermerodrigues.votingapi.exception.NotFoundException;
 import com.guilhermerodrigues.votingapi.exception.ParametersNotValidException;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TopicService {
@@ -19,12 +21,12 @@ public class TopicService {
         this.repository = repository;
     }
 
-    public List<Topic> getAll() {
-        return repository.findAll();
+    public List<TopicResponseDTO> getAll() {
+        return repository.findAll().stream().map(TopicResponseDTO::new).collect(Collectors.toList());
     }
 
-    public Topic get(Long id) {
-        return repository.findById(id).orElseThrow(() -> (
+    public TopicResponseDTO get(Long id) {
+        return repository.findById(id).map(TopicResponseDTO::new).orElseThrow(() -> (
             new NotFoundException("The topic with ID " + id + " does not exist!")
         ));
     }

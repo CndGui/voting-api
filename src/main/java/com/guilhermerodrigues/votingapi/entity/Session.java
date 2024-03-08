@@ -1,6 +1,5 @@
 package com.guilhermerodrigues.votingapi.entity;
 
-import com.guilhermerodrigues.votingapi.dto.SessionRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

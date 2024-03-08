@@ -4,7 +4,6 @@ import com.guilhermerodrigues.votingapi.dto.SessionRequestDTO;
 import com.guilhermerodrigues.votingapi.dto.SessionResponseDTO;
 import com.guilhermerodrigues.votingapi.service.SessionService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

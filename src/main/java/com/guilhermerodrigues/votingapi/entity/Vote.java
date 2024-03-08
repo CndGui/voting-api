@@ -1,5 +1,6 @@
 package com.guilhermerodrigues.votingapi.entity;
 
+import com.guilhermerodrigues.votingapi.dto.VoteRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,4 +23,10 @@ public class Vote {
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Session session;
+
+    public Vote(VoteRequestDTO data, Session session) {
+        this.cpf = data.cpf();
+        this.choice = data.choice();
+        this.session = session;
+    }
 }
