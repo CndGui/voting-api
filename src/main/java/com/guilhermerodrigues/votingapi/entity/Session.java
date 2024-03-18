@@ -23,7 +23,7 @@ public class Session {
     @ManyToOne(cascade = CascadeType.ALL)
     private Topic topic;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
     private List<Vote> votes = new ArrayList<>();
 
     public Session(Topic topic) {
